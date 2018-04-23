@@ -8,6 +8,7 @@ public class fragmentoArchivo {
     private  int numArchivos;
     private  long rango;
     private  long sizeBytesArchivo;
+
     public fragmentoArchivo(Archivo archivo, int numArchivos, String rutaCopias){
         this.archivo = archivo;
         this.rutaCopia = rutaCopias;

@@ -113,12 +113,10 @@ public class Archivo implements AutoCloseable {
 
     public byte[] getDatos(int inicio, int fin) throws ArchivoNoExiste{
         byte []aux = new byte[fin-inicio];
-        //aux[fin-inicio]='a';
         try {
-            //in.seek(0);
-            in.read(aux,inicio,fin-inicio);
-            //in.readFully(buff,inicio,fin);
-
+            in.seek(inicio);
+            in.read(aux);
+            //System.out.println("inicio: " + inicio + ", fin: " + fin + ", tam: " + (fin-inicio) + new String(aux));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,7 +135,6 @@ public class Archivo implements AutoCloseable {
 
     void escribir(byte[] info){
         try {
-
             in.write(info);
         } catch (IOException e) {
             e.printStackTrace();
