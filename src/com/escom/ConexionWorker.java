@@ -7,14 +7,18 @@ import java.net.Socket;
 public class ConexionWorker {
     private String IP;
     private int puerto;
+    private Socket conexion ;
+
     public ConexionWorker(String IPDestino, int p) {
         IP = IPDestino;
         puerto = p;
     }
 
-     public  void enviarDatos(byte[] array) {
+    public  String getIP(){return  IP;}
+    public  int getPuerto(){return  puerto;}
+     public  boolean  enviarDatos(byte[] array) {
          try {
-             Socket conexion = new Socket(IP,puerto);
+             conexion = new Socket(IP,puerto);
              OutputStream fujoSalida = conexion.getOutputStream();
              fujoSalida.write(array);
              fujoSalida.flush();
@@ -23,12 +27,11 @@ public class ConexionWorker {
              } catch (IOException e) {
                  e.printStackTrace();
              }
+            return true;
          } catch (IOException e) {
-             System.out.println("Hola !!!!");
+             System.out.println("Error de conexion con la maquina "+IP +"Revisar estado de la maquina");
              e.printStackTrace();
+             return  false;
          }
-
-
      }
-
 }

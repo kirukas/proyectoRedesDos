@@ -5,11 +5,13 @@ class SegmentadorArchivo {
     private  int numArchivos;
     private  long rango;
     private  long sizeBytesArchivo;
-    public SegmentadorArchivo(Archivo archivo, int numArchivos){
+    private String[] espejo
+    public SegmentadorArchivo(Archivo archivo, int numArchivos, String [] e){
         this.archivo = archivo;
         this.numArchivos = numArchivos;
         this.sizeBytesArchivo = archivo.getSize();
         this.rango = archivo.getSize()/numArchivos;
+       espejo = e;
     }
     // tipo trama 0 -> gurada el archivo
     // tipo trama 1 -> pide el texto
@@ -23,9 +25,13 @@ class SegmentadorArchivo {
                 if((Acopiar + rango) > sizeBytesArchivo){
                     Acopiar = (int)sizeBytesArchivo;
                 }
+                trama.setNumeroWorker(i);
                 trama.setArray(archivo.getDatos(de,(int)Acopiar));// los datos del archivo
                 //System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
-                worker[i].enviarDatos(trama.setByteArray());
+                if(!(worker[i].enviarDatos(trama.setByteArray()))){// si la conexion no fue exitosa se envia a su espejo
+                    ConexionWorker Espejo = new ConexionWorker(espejo[i],2121);
+                    if(!(Espejo.enviarDatos(trama.setByteArray()))) System.out.println("Los datos no se puedieron guardar!!");
+                }
                 de+=rango;
                 Acopiar+=rango;
             } catch (ArchivoNoExiste archivoNoExiste) {
