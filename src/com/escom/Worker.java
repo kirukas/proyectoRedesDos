@@ -11,9 +11,10 @@ public class Worker {
 
     public static void main(String[] args){
         boolean servidorActivo = true;
-        String ruta = "/home/enrique/";
+        String ruta = "/home/redes/";
         final int guardarDatos = 0;
         final int enviarDatos = 1;
+        boolean isWoker = true;
         int tramaSize;
         ConexionWorker toMaster;
         try {
@@ -32,6 +33,7 @@ public class Worker {
                         Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
                         file.escribir(trama.getArray());
                         file.close();
+                        if(isWoker);
                     }else if(trama.getTipo() == enviarDatos){
                         toMaster = new ConexionWorker(String.valueOf(conexion.getInetAddress()),puerto);
                         System.out.println("SE enviaran Datos");
