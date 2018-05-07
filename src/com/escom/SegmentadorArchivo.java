@@ -18,7 +18,7 @@ class SegmentadorArchivo {
         Trama trama = new Trama(0,archivo.getNombre());
         long Acopiar = rango;
         int de = 0;
-        for (int i = 0; i < 1 ; i++) {
+        for (int i = 0; i < numArchivos ; i++) {
             try {
                 if((Acopiar + rango) > sizeBytesArchivo){
                     Acopiar = (int)sizeBytesArchivo;

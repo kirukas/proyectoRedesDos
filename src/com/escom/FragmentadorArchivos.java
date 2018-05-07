@@ -10,9 +10,9 @@ public class FragmentadorArchivos {
         String ruta = "/home/enrique/Documentos/texto.txt";
         ConexionWorker[] maquinaEspejo = new ConexionWorker[ numeroWorkers];
         ConexionWorker[] worker = new ConexionWorker[numeroWorkers];
-        worker[0] = new ConexionWorker("127.0.0.1",puerto);
-        worker[1] = new ConexionWorker("192.168.2.1",puerto);
-        worker[2] = new ConexionWorker("192.168.2.1",puerto);
+        worker[0] = new ConexionWorker("192.168.30.2",puerto);
+        worker[1] = new ConexionWorker("192.168.30.2",puerto);
+        worker[2] = new ConexionWorker("192.168.30.2",puerto);
         ConexionWorker maquina1 = new ConexionWorker("192.168.3.2",2121);
         Archivo original = new Archivo(ruta);
         SegmentadorArchivo segmentador = new SegmentadorArchivo(original,numeroWorkers);
