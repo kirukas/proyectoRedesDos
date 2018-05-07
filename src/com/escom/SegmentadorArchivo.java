@@ -5,7 +5,7 @@ class SegmentadorArchivo {
     private  int numArchivos;
     private  long rango;
     private  long sizeBytesArchivo;
-    private String[] espejo
+    private String[] espejo;
     public SegmentadorArchivo(Archivo archivo, int numArchivos, String [] e){
         this.archivo = archivo;
         this.numArchivos = numArchivos;

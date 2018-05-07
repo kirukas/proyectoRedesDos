@@ -19,9 +19,9 @@ public class Worker {
 
         ConexionWorker toMaster;
         ConexionWorker[] espejo = new ConexionWorker[numeroEspejos];
-        espejo[0] = new ConexionWorker("192.168.10.2",puerto);
-        espejo[1] = new ConexionWorker("192.168.10.3",puerto);
-        espejo[2] = new ConexionWorker("192.168.10.4",puerto);
+        espejo[0] = new ConexionWorker("192.168.31.2",puerto);
+        espejo[1] = new ConexionWorker("192.168.31.3",puerto);
+        espejo[2] = new ConexionWorker("192.168.31.4",puerto);
 
         try {
             ServerSocket worker = new ServerSocket(puerto);
@@ -44,7 +44,7 @@ public class Worker {
                         }
                     }else if(trama.getTipo() == enviarDatos){
 
-                        toMaster = new ConexionWorker("127.0.0.1",puerto);
+                        toMaster = new ConexionWorker("10.42.0.64",puerto);
                         System.out.println("Buscando Archivo");
                         Archivo file = new Archivo(ruta+trama.getHashCode());
                         if(!toMaster.enviarDatos(file.getDatos(0,(int)file.getSize()))){

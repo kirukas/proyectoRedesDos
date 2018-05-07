@@ -9,9 +9,9 @@ public class FragmentadorArchivos {
         int numeroWorkers = 3;
 
         String[] espejo = new String[numeroWorkers];
-        espejo[0] = "192.168.10.2";
-        espejo[1] = "192.168.10.2";
-        espejo[2] = "192.168.10.2";
+        espejo[0] = "192.168.31.2";
+        espejo[1] = "192.168.31.3";
+        espejo[2] = "192.168.31.4";
         String ruta = "/home/enrique/Documentos/texto.txt";
         ConexionWorker[] maquinaEspejo = new ConexionWorker[ numeroWorkers];
         ConexionWorker[] worker = new ConexionWorker[numeroWorkers];
@@ -20,7 +20,7 @@ public class FragmentadorArchivos {
         worker[2] = new ConexionWorker("192.168.30.4",puerto);
         ConexionWorker maquina1 = new ConexionWorker("192.168.3.2",2121);
         Archivo original = new Archivo(ruta);
-        SegmentadorArchivo segmentador = new SegmentadorArchivo(original,numeroWorkers);
+        SegmentadorArchivo segmentador = new SegmentadorArchivo(original,numeroWorkers,espejo);
         segmentador.enviar( worker);
 
         try {
