@@ -1,80 +1,41 @@
 package com.escom;
 
- class FragmentadorArchivo {
+class SegmentadorArchivo {
     private Archivo archivo;
-    private String[] rutasArchivo;
-    private int numerArchivos;
-    private  String rutaCopia;
     private  int numArchivos;
     private  long rango;
     private  long sizeBytesArchivo;
-    private  ConexionWorker maquina1 = new ConexionWorker("192.168.3.2",2121);
-
-    public FragmentadorArchivo(Archivo archivo, int numArchivos, String rutaCopias){
+    public SegmentadorArchivo(Archivo archivo, int numArchivos){
         this.archivo = archivo;
-        this.rutaCopia = rutaCopias;
         this.numArchivos = numArchivos;
         this.sizeBytesArchivo = archivo.getSize();
         this.rango = archivo.getSize()/numArchivos;
     }
-
-    public void framentar(){
+    // tipo trama 0 -> gurada el archivo
+    // tipo trama 1 -> pide el texto
+    public void enviar(ConexionWorker [] worker){
         System.out.println("tamaño del archivo: "+sizeBytesArchivo);
-        Archivo[] copia = new Archivo[numArchivos];
-        rutasArchivo = new String[3];
+        Trama trama = new Trama(0,archivo.getNombre());
         long Acopiar = rango;
         int de = 0;
-        for (int i = 0; i < numArchivos ; i++) {
-            String rutaCopiaAux = rutaCopia+"copia"+i+".txt";
-            System.out.println(rutaCopiaAux);
+        for (int i = 0; i < 1 ; i++) {
             try {
-                copia[i] = new Archivo(rutaCopiaAux,"rw");
-                rutasArchivo[i] = new String(rutaCopiaAux);
                 if((Acopiar + rango) > sizeBytesArchivo){
                     Acopiar = (int)sizeBytesArchivo;
                 }
-                copia[i].escribir(archivo.getDatos(de,(int)Acopiar));
-                maquina1.enviarDatos(archivo.getDatos(de,(int)Acopiar));
-                //archivo.getDatos(0,100);
-                System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
+                trama.setArray(archivo.getDatos(de,(int)Acopiar));// los datos del archivo
+                //System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
+                worker[i].enviarDatos(trama.setByteArray());
                 de+=rango;
                 Acopiar+=rango;
-
-                try {
-                    copia[i].close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             } catch (ArchivoNoExiste archivoNoExiste) {
                 archivoNoExiste.printStackTrace();
             }
         }
+
+
     }
 
-    public Archivo  arrejuntar(){
-        Archivo original = null;
-        try {
-            original = new Archivo("ruta","rw");
-        } catch (ArchivoNoExiste archivoNoExiste) {
-            archivoNoExiste.printStackTrace();
-        }
-      //  byte[] info = new byte[(int) sizeBytesArchivo];
-        byte[] datos = new byte[0];
-        Archivo[] copia = new Archivo[numArchivos];
-        for (int i = 0; i < numArchivos; i++) {
-            try {
-                copia[i] = new Archivo(rutasArchivo[i]);
-                //datos += copia[i].getDatos(0, (int) copia[i].getSize());
-            } catch (ArchivoNoExiste archivoNoExiste) {
-                archivoNoExiste.printStackTrace();
-            }
-            try {
-                copia[i].close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return original;
-    }
+
 
 }

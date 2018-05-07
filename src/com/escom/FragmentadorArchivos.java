@@ -1,17 +1,23 @@
 package com.escom;
 
-public class Main {
+public class FragmentadorArchivos {
 
     public static void main(String[] args) throws ArchivoNoExiste {
+        final int puerto = 2121;
         Archivo archivo = null;
         String texto = null;
+        int numeroWorkers = 3;
         String ruta = "/home/enrique/Documentos/texto.txt";
-        String rutaCopia = "/home/enrique/Documentos/";
-
-        int numeroArchivos = 3;
+        ConexionWorker[] maquinaEspejo = new ConexionWorker[ numeroWorkers];
+        ConexionWorker[] worker = new ConexionWorker[numeroWorkers];
+        worker[0] = new ConexionWorker("127.0.0.1",puerto);
+        worker[1] = new ConexionWorker("192.168.2.1",puerto);
+        worker[2] = new ConexionWorker("192.168.2.1",puerto);
+        ConexionWorker maquina1 = new ConexionWorker("192.168.3.2",2121);
         Archivo original = new Archivo(ruta);
-        fragmentoArchivo fragmentar = new fragmentoArchivo(original,numeroArchivos,rutaCopia);
-        fragmentar.framentar();
+        SegmentadorArchivo segmentador = new SegmentadorArchivo(original,numeroWorkers);
+        segmentador.enviar( worker);
+
         try {
             original.close();
         } catch (Exception e) {

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
+import java.util.RandomAccess;
 
 public class Archivo implements AutoCloseable {
     private String ruta;
@@ -62,6 +63,8 @@ public class Archivo implements AutoCloseable {
     public Archivo(String ruta, String modo ) throws ArchivoNoExiste{
         this(ruta,modo,-1);
     }
+    public String getNombre(){ return  ruta.substring(ruta.lastIndexOf("/")+1);}
+
 
     public String getRuta(){
         return ruta;
