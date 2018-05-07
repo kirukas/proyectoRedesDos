@@ -5,8 +5,9 @@ public class Main {
     public static void main(String[] args) throws ArchivoNoExiste {
         Archivo archivo = null;
         String texto = null;
-        String ruta = "/home/hector/Documentos/texto.txt";
-        String rutaCopia = "/home/hector/Documentos/";
+        String ruta = "/home/enrique/Documentos/texto.txt";
+        String rutaCopia = "/home/enrique/Documentos/";
+
         int numeroArchivos = 3;
         Archivo original = new Archivo(ruta);
         fragmentoArchivo fragmentar = new fragmentoArchivo(original,numeroArchivos,rutaCopia);

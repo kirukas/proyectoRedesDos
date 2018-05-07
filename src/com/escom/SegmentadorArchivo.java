@@ -1,6 +1,6 @@
 package com.escom;
 
-public class fragmentoArchivo {
+ class FragmentadorArchivo {
     private Archivo archivo;
     private String[] rutasArchivo;
     private int numerArchivos;
@@ -8,15 +8,14 @@ public class fragmentoArchivo {
     private  int numArchivos;
     private  long rango;
     private  long sizeBytesArchivo;
+    private  ConexionWorker maquina1 = new ConexionWorker("192.168.3.2",2121);
 
-    public fragmentoArchivo(Archivo archivo, int numArchivos, String rutaCopias){
+    public FragmentadorArchivo(Archivo archivo, int numArchivos, String rutaCopias){
         this.archivo = archivo;
         this.rutaCopia = rutaCopias;
         this.numArchivos = numArchivos;
         this.sizeBytesArchivo = archivo.getSize();
-        this.rango = (long)archivo.getSize()/numArchivos;
-
-
+        this.rango = archivo.getSize()/numArchivos;
     }
 
     public void framentar(){
@@ -35,6 +34,7 @@ public class fragmentoArchivo {
                     Acopiar = (int)sizeBytesArchivo;
                 }
                 copia[i].escribir(archivo.getDatos(de,(int)Acopiar));
+                maquina1.enviarDatos(archivo.getDatos(de,(int)Acopiar));
                 //archivo.getDatos(0,100);
                 System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
                 de+=rango;
