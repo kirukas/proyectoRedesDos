@@ -152,6 +152,14 @@ public class Archivo implements AutoCloseable {
             e.printStackTrace();
         }
     }
+    public void escribirFinal(byte[] info){
+        try {
+            in.seek(in.length());
+            in.write(info);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void close() throws Exception {
         in.close();
