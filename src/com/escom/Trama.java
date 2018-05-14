@@ -17,6 +17,11 @@ public class Trama {
         hashCode = nombreArchivo.hashCode();
         archivo = nombreArchivo;
     }
+    // respuesta de la trama
+    public Trama(int tipo ,byte[] array){
+        tipoTrama = tipo;
+        Array = array;
+    }
     public Trama(int tipo, String nombreArchivo , byte[] array){
         tipoTrama = tipo;
         hashCode = nombreArchivo.hashCode();

@@ -56,18 +56,21 @@ public class Worker {
                         //toMaster = new ConexionWorker("10.42.0.64",puerto);
                         System.out.println("Buscando Archivo...");
                         Archivo file = new Archivo(ruta+trama.getHashCode());
-                        flujoSalida.write(file.getDatos(0,(int)file.getSize()));
+                        Trama respuesta = new Trama(guardarDatos,file.getDatos(0,(int)file.getSize()));
+                        respuesta.setHashCode(trama.getHashCode());
+                        flujoSalida.write(respuesta.setByteArray());
                         file.close();
                         flujoSalida.flush();// se manda el flujo de salida
                         System.out.println("\tse enviaron los datos con exito!");
+
                         }
                         servidorActivo  = false;
                     }
-
                 }
                 // se cierra el canal de comunicacion
                 flujoEntrada.close();
                 flujoSalida.close();
+                System.out.println("Cerrando la conexion del servidor !");
                 // se cierra el socket
                 conexion.close();
             }

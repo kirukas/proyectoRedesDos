@@ -6,11 +6,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 
 public class ReconstruirArchivo {
     private  static final int puerto = 2121;
+    final int guardarDatos = 0;
     private String ruta ="/home/enrique/Documentos/Redes2/ARCHIVOSRECONSTRUIDOS";
     private String[] espejo;
     private ConexionWorker [] worker;
@@ -49,7 +51,7 @@ public class ReconstruirArchivo {
             archivoNoExiste.printStackTrace();
         }
         file.escribir(t.getArray());
-        rutasTemporales[t.getNumeroWorker()] = fileAux;//va guardando las rutas temporales
+       // rutasTemporales[t.getNumeroWorker()] = fileAux;//va guardando las rutas temporales
         try {
             file.close();
         } catch (Exception e) {
@@ -105,10 +107,26 @@ public class ReconstruirArchivo {
             OutputStream flujoSalida = conexion.getOutputStream();
             flujoSalida.write(peticion.setByteArray());
             flujoSalida.flush();
+           // byte[] Array = new byte[1000];
+             while(t < 1){
+                if((t = flujoEntrada.available()) > 0){
+                    System.out.println("longitud de la trama: "+t);
+                    byte [] Array = new byte[t];
 
-            System.out.println("Mensaje: "+flujoEntrada.readAllBytes().toString());
+                    flujoEntrada.read(Array);
+                    Trama trama = new Trama(Array);
+                    if(trama.getTipo() == guardarDatos) {// guarda los datos de la trama
+                        System.out.println("Se guardaran los datos en un archivo");
+                        guardaArchivosTemporal(trama);
 
-            conexion.close();
+                    }
+
+                }
+             }
+
+            //guardaArchivosTemporal(new Trama(Array));
+           // flujoEntrada.close();
+           // conexion.close();
 
         }catch (IOException e) {
             e.printStackTrace();

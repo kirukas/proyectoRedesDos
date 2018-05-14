@@ -20,15 +20,14 @@ public class FragmentadorArchivos {
         worker[2] = new ConexionWorker("192.168.30.4",puerto);
         ConexionWorker maquina1 = new ConexionWorker("192.168.3.2",2121);
         Archivo original = new Archivo(ruta);
-       SegmentadorArchivo segmentador = new SegmentadorArchivo(original,numeroWorkers,espejo);
-        segmentador.enviar( worker);
+        SegmentadorArchivo segmentador = new SegmentadorArchivo(original,numeroWorkers,espejo);
+        /*segmentador.enviar( worker);
         try {
             original.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        ReconstruirArchivo reconstruir = new ReconstruirArchivo(original,worker,espejo);
-
+        }*/
+       ReconstruirArchivo reconstruir = new ReconstruirArchivo(original,worker,espejo);
         reconstruir.getFragmentos();
 
     }
