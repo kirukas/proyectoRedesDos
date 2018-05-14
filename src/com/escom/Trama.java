@@ -17,6 +17,12 @@ public class Trama {
         hashCode = nombreArchivo.hashCode();
         archivo = nombreArchivo;
     }
+    public Trama(int tipo, String nombreArchivo , byte[] array){
+        tipoTrama = tipo;
+        hashCode = nombreArchivo.hashCode();
+        Array = array;
+        archivo = nombreArchivo;
+    }
     public Trama(int tipo, String nombreArchivo ,int numeroWorker, byte[] array){
         tipoTrama = tipo;
         hashCode = nombreArchivo.hashCode();
@@ -42,15 +48,17 @@ public class Trama {
     public void setHashCode(int hashCode) { this.hashCode = hashCode; }
     public void setTipoTrama(int tipoTrama) { this.tipoTrama = tipoTrama; }
     public int getNumeroWorker(){return  numeroWorker;}
-    public byte[]setByteArray(){
 
-        byte[] tramaByteArray = new byte[sizeCabecera+Array.length];
+    public byte[]setByteArray(){
+        byte[] tramaByteArray = new byte[sizeCabecera+Array.length+1];
         ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
         ByteBuffer.wrap(tramaByteArray,sizeInt,2*sizeInt).putInt(hashCode);
         ByteBuffer.wrap(tramaByteArray,2*sizeInt,3*sizeInt).putInt(numeroWorker);
         System.arraycopy(Array,0,tramaByteArray,sizeCabecera,Array.length);
         return tramaByteArray;
     }
-
+    public void   toStringTrama() {
+        System.out.println("tipo de trama: "+getTipo()+"\n hasCode:"+getHashCode()+"\n numero Worker " +getNumeroWorker());
+    }
 
 }

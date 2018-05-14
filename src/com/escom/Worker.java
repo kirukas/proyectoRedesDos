@@ -2,63 +2,85 @@ package com.escom;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Worker {
     private static  final  int puerto = 2121;
 
     public static void main(String[] args){
-        boolean servidorActivo = true;
+        boolean servidorActivo;
         String ruta = "/home/redes/";
         final int numeroEspejos = 3;
         final int guardarDatos = 0;
         final int enviarDatos = 1;
-        boolean isWoker = true;
+        String isWoker = "worker";
+        Socket conexion;
+        //boolean isWoker = true;
         int tramaSize;
-
+        boolean aceptarConexion;
         ConexionWorker toMaster;
         ConexionWorker[] espejo = new ConexionWorker[numeroEspejos];
         espejo[0] = new ConexionWorker("192.168.31.2",puerto);
         espejo[1] = new ConexionWorker("192.168.31.3",puerto);
         espejo[2] = new ConexionWorker("192.168.31.4",puerto);
-
+        System.out.println( args[0]+" activo...");
         try {
             ServerSocket worker = new ServerSocket(puerto);
-            Socket conexion = worker.accept();
-            InputStream flujoEntrada = conexion.getInputStream();
-            while(servidorActivo){
-                System.out.println("Servidor activo...");
-                if((tramaSize = flujoEntrada.available()) > 0){
-                    System.out.println("SE recibio mensaje");
-                    byte[] tramaRaw = new byte[tramaSize];
-                    flujoEntrada.read(tramaRaw,0,tramaSize);
-                    Trama trama = new Trama(tramaRaw);
-                    if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
-                        System.out.println("La direccion "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
-                        Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
-                        file.escribir(trama.getArray());
-                        file.close();
-                        if(isWoker){// si es umn worker le manda el byte[] array a su espejo
-                            espejo[trama.getNumeroWorker()].enviarDatos(tramaRaw);
-                        }
-                    }else if(trama.getTipo() == enviarDatos){
+            aceptarConexion = true;
 
-                        toMaster = new ConexionWorker("10.42.0.64",puerto);
-                        System.out.println("Buscando Archivo");
+            while(aceptarConexion){
+                conexion = worker.accept();
+                InputStream flujoEntrada = conexion.getInputStream();// canal comunicasion
+                OutputStream flujoSalida = conexion.getOutputStream();// canal de comunicasion
+                servidorActivo = true;
+                while(servidorActivo){
+                    if((tramaSize = flujoEntrada.available()) > 0){
+                        System.out.println("Se recibio una trama ..");
+                        byte[] tramaRaw = new byte[tramaSize];
+                        flujoEntrada.read(tramaRaw,0,tramaSize);
+                        Trama trama = new Trama(tramaRaw);
+                        if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
+                            System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
+                            Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
+                            file.escribir(trama.getArray());
+                            file.close();
+                            /*if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
+                                System.out.println("\tEl worker respalda datos en su espejo");
+                                espejo[trama.getNumeroWorker()].enviarDatos(tramaRaw);
+                            }*/
+                        }else if(trama.getTipo() == enviarDatos){
+                            System.out.println("\tPeticion de un Archivo ");
+                        //toMaster = new ConexionWorker("10.42.0.64",puerto);
+                        System.out.println("Buscando Archivo...");
                         Archivo file = new Archivo(ruta+trama.getHashCode());
-                        if(!toMaster.enviarDatos(file.getDatos(0,(int)file.getSize()))){
-                            System.out.println("la maquina "+String.valueOf(conexion.getLocalAddress())+"No pudo enviar los datos");
-                        }
+                        flujoSalida.write(file.getDatos(0,(int)file.getSize()));
                         file.close();
+                        flujoSalida.flush();// se manda el flujo de salida
+                        System.out.println("\tse enviaron los datos con exito!");
+                        }
+                        servidorActivo  = false;
                     }
+
                 }
+                // se cierra el canal de comunicacion
+                flujoEntrada.close();
+                flujoSalida.close();
+                // se cierra el socket
+                conexion.close();
             }
+        }catch (UnknownHostException e){
+            //System.out.println(e);
+            System.out.println("Host no encontrado..." );
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ArchivoNoExiste archivoNoExiste) {
             archivoNoExiste.printStackTrace();
         } catch (Exception e) {
+            System.out.println("Error de conexion con la maquina "+"10.42.0.64" +"\nRevisar estado de la maquina");
             e.printStackTrace();
         }
     }
