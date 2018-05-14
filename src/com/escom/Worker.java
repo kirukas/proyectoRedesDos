@@ -56,8 +56,10 @@ public class Worker {
                         //toMaster = new ConexionWorker("10.42.0.64",puerto);
                         System.out.println("Buscando Archivo...");
                         Archivo file = new Archivo(ruta+trama.getHashCode());
+                        System.out.println("Armando la trama ..");
                         Trama respuesta = new Trama(guardarDatos,file.getDatos(0,(int)file.getSize()));
                         respuesta.setHashCode(trama.getHashCode());
+                        System.out.println("Envindo la trama  ..");
                         flujoSalida.write(respuesta.setByteArray());
                         file.close();
                         flujoSalida.flush();// se manda el flujo de salida

@@ -13,9 +13,9 @@ import java.nio.ByteBuffer;
 public class ReconstruirArchivo {
     private  static final int puerto = 2121;
     final int guardarDatos = 0;
-    private String ruta ="/home/enrique/Documentos/Redes2/ARCHIVOSRECONSTRUIDOS";
-    private String[] espejo;
-    private ConexionWorker [] worker;
+    private String ruta ="/home/enrique/Documentos/Redes2/ARCHIVOSRECONSTRUIDOS";// ruta donde se guardara el archivo
+    private String[] espejo;// ips de los espejos
+    private ConexionWorker [] worker;// conexiones al worker
     private Archivo archivo;
     private Trama peticion;
     private  String[] rutasTemporales;
@@ -24,7 +24,7 @@ public class ReconstruirArchivo {
     public ReconstruirArchivo(Archivo a, ConexionWorker[] w, String[] e){
         worker = w;
         espejo = e;
-        archivo = a;
+        archivo = a;// archivo a recuperar
         ConstruirPeticion();
         rutasTemporales = new String[worker.length];
         respuestaWorker = new boolean[worker.length];
@@ -99,7 +99,6 @@ public class ReconstruirArchivo {
 
     public void getFragmentos(){
         int t = 0;
-
         //EnviarPeticionArchivoWorkers();
         try {
             Socket conexion = new Socket("192.168.30.2",puerto);
@@ -128,29 +127,14 @@ public class ReconstruirArchivo {
            // flujoEntrada.close();
            // conexion.close();
 
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        /* EnviarPeticionArchivoWorkers();
-        try {
-            ServerSocket  servidor =  new ServerSocket(puerto);
-            System.out.println("holas");
-            Socket conexion =  servidor.accept();
-            InputStream flujoEntrada = conexion.getInputStream();
-            if(( t = flujoEntrada.available())> 0){
-                System.out.println("llego mensaje ");
-            }
-
-        }
-        catch (UnknownHostException e){
+        }   catch (UnknownHostException e){
             //System.out.println(e);
             System.out.println("Host no encontrado..." );
         }
         catch (IOException e) {
             System.out.println("Error de conexion con la maquina "+"\nRevisar estado de la maquina");
             e.printStackTrace();
-        }*/
+        }
 
     }
 
