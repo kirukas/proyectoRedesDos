@@ -47,10 +47,10 @@ public class Worker {
                             Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
                             file.escribir(trama.getArray());
                             file.close();
-                            /*if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
+                            if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
                                 System.out.println("\tEl worker respalda datos en su espejo");
                                 espejo[trama.getNumeroWorker()].enviarDatos(tramaRaw);
-                            }*/
+                            }
                         }else if(trama.getTipo() == enviarDatos){
                             System.out.println("\tPeticion de un Archivo ");
                         //toMaster = new ConexionWorker("10.42.0.64",puerto);

@@ -78,6 +78,7 @@ public class ReconstruirArchivo {
 
                 Archivo auxiliar = new Archivo(rutasTemporales[i],"rw");
                 reconstruido.escribir(auxiliar.getDatos(0,(int)auxiliar.getSize()));
+
                 auxiliar.close();
             }
         } catch (ArchivoNoExiste archivoNoExiste) {
@@ -104,7 +105,8 @@ public class ReconstruirArchivo {
             OutputStream flujoSalida = conexion.getOutputStream();
             flujoSalida.write(peticion.setByteArray());
             flujoSalida.flush();
-            System.out.println("Mensaje"+flujoEntrada.readAllBytes().toString());
+
+            System.out.println("Mensaje: "+flujoEntrada.readAllBytes().toString());
 
             conexion.close();
 
