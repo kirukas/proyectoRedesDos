@@ -9,9 +9,15 @@ public class Trama {
     private int hashCode;
     private  String archivo;
     private byte[] Array;
+    int[] cabecera = new int[3];
     private int numeroWorker;
     // tipo trama 0 -> gurada el archivo
     // tipo trama 1 -> pide el texto
+    public void inicalizaCabecera(){
+        cabecera[0] = tipoTrama;
+        cabecera[1] = hashCode;
+        cabecera[2] = numeroWorker;
+    }
     public Trama(int tipo, String nombreArchivo){
         tipoTrama = tipo;
         hashCode = nombreArchivo.hashCode();
@@ -61,10 +67,10 @@ public class Trama {
     }
     public byte[]setByteArray(){
         byte[] tramaByteArray = new byte[sizeCabecera + Array.length];
-        
+        inicalizaCabecera();
         //System.out.println("tamaño de bytes"+tramaByteArray.length);
         for (int i = 0; i < 3; i++) {
-            byte[] aux = casToByteArray(i);
+            byte[] aux = casToByteArray(cabecera[i]);
             System.arraycopy(aux,0,tramaByteArray,i*sizeInt,aux.length);
         }
        // ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
@@ -75,6 +81,7 @@ public class Trama {
     }
     public void   toStringTrama() {
         System.out.println("tipo de trama: "+getTipo()+"\n hasCode:"+getHashCode()+"\n numero Worker " +getNumeroWorker());
+        
     }
 
 }
