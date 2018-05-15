@@ -8,11 +8,15 @@ public class FragmentadorArchivos {
         String texto = null;
         int numeroWorkers = 3;
 
+        String[]  workers = new String[numeroWorkers];
+        workers[0] = "192.168.30.2";
+        workers[1] = "192.168.30.3";
+        workers[2] = "192.168.30.4";
         String[] espejo = new String[numeroWorkers];
         espejo[0] = "192.168.31.2";
         espejo[1] = "192.168.31.3";
         espejo[2] = "192.168.31.4";
-        String ruta = "/home/enrique/Documentos/textoCopia.txt";
+        String ruta = "/home/enrique/Documentos/holaMundo.txt";
         ConexionWorker[] maquinaEspejo = new ConexionWorker[ numeroWorkers];
         ConexionWorker[] worker = new ConexionWorker[numeroWorkers];
         worker[0] = new ConexionWorker("192.168.30.2",puerto);
@@ -21,14 +25,17 @@ public class FragmentadorArchivos {
         ConexionWorker maquina1 = new ConexionWorker("192.168.3.2",2121);
         Archivo original = new Archivo(ruta);
         SegmentadorArchivo segmentador = new SegmentadorArchivo(original,numeroWorkers,espejo);
-        /*segmentador.enviar( worker);
-        try {
+        segmentador.enviar( worker);
+      /*  try {
             original.close();
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-       ReconstruirArchivo reconstruir = new ReconstruirArchivo(original,worker,espejo);
-        reconstruir.getFragmentos();
+
+       /*ReconstruirArchivo reconstruir = new ReconstruirArchivo(original,workers,espejo);
+        for (int i = 0; i < numeroWorkers ; i++) {
+            reconstruir.getFragmento(i);
+        }*/
 
     }
 }

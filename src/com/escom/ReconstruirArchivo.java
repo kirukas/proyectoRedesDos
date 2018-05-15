@@ -15,18 +15,23 @@ public class ReconstruirArchivo {
     final int guardarDatos = 0;
     private String ruta ="/home/enrique/Documentos/Redes2/ARCHIVOSRECONSTRUIDOS";// ruta donde se guardara el archivo
     private String[] espejo;// ips de los espejos
-    private ConexionWorker [] worker;// conexiones al worker
     private Archivo archivo;
     private Trama peticion;
-    private  String[] rutasTemporales;
+    private  String[] rutasTemporales ;
+    private String [] worker;
+    private Archivo reconstruido = null;
     private  boolean [] respuestaWorker;
-    private ServerSocket master ;
-    public ReconstruirArchivo(Archivo a, ConexionWorker[] w, String[] e){
+
+    public ReconstruirArchivo(Archivo a, String[] w, String[] e){
         worker = w;
         espejo = e;
         archivo = a;// archivo a recuperar
         ConstruirPeticion();
-        rutasTemporales = new String[worker.length];
+        try {
+            reconstruido = new Archivo(ruta+"/"+a.getNombre(),"rw");
+        } catch (ArchivoNoExiste archivoNoExiste) {
+            archivoNoExiste.printStackTrace();
+        }
         respuestaWorker = new boolean[worker.length];
     }
    private void incializaDatos(){
@@ -60,16 +65,6 @@ public class ReconstruirArchivo {
 
     }
 
-    private void EnviarPeticionArchivoWorkers(){
-        System.out.println("Enviando petcion  a los workers");
-
-        for (int i = 0; i < worker.length; i++) {
-            if(respuestaWorker[i] == false ){
-                //peticion.setNumeroWorker(i);
-                worker[i].enviarDatos(peticion.setByteArray());
-            }
-        }
-    }
 
 
     public Archivo  reconstruir(Archivo archivo) {
@@ -97,16 +92,15 @@ public class ReconstruirArchivo {
 
     }
 
-    public void getFragmentos(){
-        int t = 0;
-        //EnviarPeticionArchivoWorkers();
+    public void getFragmento(int i){
+
         try {
-            Socket conexion = new Socket("192.168.30.2",puerto);
+            Socket conexion = new Socket(worker[i],puerto);
             InputStream flujoEntrada = conexion.getInputStream();
             OutputStream flujoSalida = conexion.getOutputStream();
             flujoSalida.write(peticion.setByteArray());
             flujoSalida.flush();
-           // byte[] Array = new byte[1000];
+            int t = 0;
              while(t < 1){
                 if((t = flujoEntrada.available()) > 0){
                     System.out.println("longitud de la trama: "+t);
@@ -115,17 +109,15 @@ public class ReconstruirArchivo {
                     flujoEntrada.read(Array);
                     Trama trama = new Trama(Array);
                     if(trama.getTipo() == guardarDatos) {// guarda los datos de la trama
-                        System.out.println("Se guardaran los datos en un archivo");
+                        System.out.println("Se guardaran los datos en un archivo temporal");
                         guardaArchivosTemporal(trama);
-
+                        reconstruido.escribirFinal(trama.getArray());
                     }
-
                 }
              }
 
-            //guardaArchivosTemporal(new Trama(Array));
-           // flujoEntrada.close();
-           // conexion.close();
+           flujoEntrada.close();
+             conexion.close();
 
         }   catch (UnknownHostException e){
             //System.out.println(e);

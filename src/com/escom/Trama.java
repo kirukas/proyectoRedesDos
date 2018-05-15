@@ -54,11 +54,22 @@ public class Trama {
     public void setTipoTrama(int tipoTrama) { this.tipoTrama = tipoTrama; }
     public int getNumeroWorker(){return  numeroWorker;}
 
+    private byte[] casToByteArray(int entero){
+        byte [] bytes = new byte[sizeInt];
+        ByteBuffer.wrap(bytes).putInt(entero);
+        return  bytes;
+    }
     public byte[]setByteArray(){
-        byte[] tramaByteArray = new byte[sizeCabecera+Array.length+1];
-        ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
-        ByteBuffer.wrap(tramaByteArray,sizeInt,2*sizeInt).putInt(hashCode);
-        ByteBuffer.wrap(tramaByteArray,2*sizeInt,3*sizeInt).putInt(numeroWorker);
+        byte[] tramaByteArray = new byte[sizeCabecera + Array.length];
+        
+        //System.out.println("tamaño de bytes"+tramaByteArray.length);
+        for (int i = 0; i < 3; i++) {
+            byte[] aux = casToByteArray(i);
+            System.arraycopy(aux,0,tramaByteArray,i*sizeInt,aux.length);
+        }
+       // ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
+      // ByteBuffer.wrap(tramaByteArray,sizeInt,2*sizeInt).putInt(hashCode);
+       // ByteBuffer.wrap(tramaByteArray,2*sizeInt,3*sizeInt).putInt(numeroWorker);
         System.arraycopy(Array,0,tramaByteArray,sizeCabecera,Array.length);
         return tramaByteArray;
     }
@@ -67,3 +78,4 @@ public class Trama {
     }
 
 }
+/// RPC Y COMO HACER UN HOLA MUNDO CON RPC
