@@ -67,21 +67,24 @@ public class Trama {
     }
     public byte[]setByteArray(){
         byte[] tramaByteArray = new byte[sizeCabecera + Array.length];
-        inicalizaCabecera();
+        //inicalizaCabecera();
         //System.out.println("tamaño de bytes"+tramaByteArray.length);
-        for (int i = 0; i < 3; i++) {
+        /*for (int i = 0; i < 3; i++) {
             byte[] aux = casToByteArray(cabecera[i]);
             System.arraycopy(aux,0,tramaByteArray,i*sizeInt,aux.length);
-        }
-       // ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
-      // ByteBuffer.wrap(tramaByteArray,sizeInt,2*sizeInt).putInt(hashCode);
-       // ByteBuffer.wrap(tramaByteArray,2*sizeInt,3*sizeInt).putInt(numeroWorker);
+        }*/
+       ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
+       ByteBuffer.wrap(tramaByteArray,sizeInt,2*sizeInt).putInt(hashCode);
+       ByteBuffer.wrap(tramaByteArray,2*sizeInt,3*sizeInt).putInt(numeroWorker);
         System.arraycopy(Array,0,tramaByteArray,sizeCabecera,Array.length);
         return tramaByteArray;
     }
     public void   toStringTrama() {
         System.out.println("tipo de trama: "+getTipo()+"\n hasCode:"+getHashCode()+"\n numero Worker " +getNumeroWorker());
-        
+        System.out.print("Datos");
+        for (int i = 0; i < Array.length; i++) {
+            System.out.print(" "+Array[i]);
+        }
     }
 
 }
