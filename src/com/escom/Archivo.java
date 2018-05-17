@@ -48,7 +48,7 @@ public class Archivo implements AutoCloseable {
         //in = new RandomAccessFile(ruta,modo);
         //existe = true;
         abreArchivo();
-        ajusta();
+      //  ajusta();
 
     }
 
@@ -152,7 +152,7 @@ public class Archivo implements AutoCloseable {
             e.printStackTrace();
         }
     }
-    public void escribirFinal(byte[] info){
+    public void escribirFinal(byte[] info, boolean trampa){
         try {
             if(in.length() > 0){
                 in.seek(in.length()-1);
@@ -160,7 +160,13 @@ public class Archivo implements AutoCloseable {
             else{
                 in.seek(0);
             }
-            in.write(info);
+            if(trampa){
+                in.write(info,0,info.length-1);
+            }else{
+                in.write(info,0,info.length);
+            }
+            //in.seek(in.length());
+
         } catch (IOException e) {
             e.printStackTrace();
         }

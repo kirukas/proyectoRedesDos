@@ -91,9 +91,48 @@ public class ReconstruirArchivo {
         return  reconstruido;
 
     }
+    public void getRespaldoEspejo(int i){
+        try {
+            Socket conexionEspejo = new Socket(espejo[i],puerto);
+            InputStream entradaEspejo = conexionEspejo.getInputStream();
+            OutputStream salidaAEspejo = conexionEspejo.getOutputStream();
+            salidaAEspejo.write(peticion.setByteArray());
+            salidaAEspejo.flush();
+            int t = 0;
+            while(t < 1 ){
+                if((t = entradaEspejo.available()) > 0){
+                    System.out.println("longitud de la trama: "+t);
+                    byte [] Array = new byte[t];
+                    entradaEspejo.read(Array);
+                    Trama trama = new Trama(Array);
+                    if(trama.getTipo() == guardarDatos) {// guarda los datos de la trama
+                        System.out.println("Se guardaran los datos en un archivo temporal");
+                        if(i == 2){
+                            reconstruido.escribirFinal(trama.getArray(),true);
+                        }
+                        else{
+                            reconstruido.escribirFinal(trama.getArray(),false);
+                        }
+                    }
+                }
 
+            }
+
+        }catch (UnknownHostException e){
+            //System.out.println(e);
+            System.out.println("Host no encontrado..." );
+            System.out.print("Error al recuperar el archivo !!");
+            System.exit(0);
+        }
+        catch (IOException e) {
+            System.out.println("Error de conexion con la maquina "+"\nRevisar estado de la maquina");
+            e.printStackTrace();
+            System.out.print("Error al recuperar el archivo !!");
+            System.exit(0);
+        }
+
+    }
     public void getFragmento(int i){
-
         try {
             Socket conexion = new Socket(worker[i],puerto);
             InputStream flujoEntrada = conexion.getInputStream();
@@ -110,8 +149,12 @@ public class ReconstruirArchivo {
                     Trama trama = new Trama(Array);
                     if(trama.getTipo() == guardarDatos) {// guarda los datos de la trama
                         System.out.println("Se guardaran los datos en un archivo temporal");
-                        guardaArchivosTemporal(trama);
-                        reconstruido.escribirFinal(trama.getArray());
+                        if(i == 2){
+                            reconstruido.escribirFinal(trama.getArray(),true);
+                        }
+                        else{
+                            reconstruido.escribirFinal(trama.getArray(),false);
+                        }
                     }
                 }
              }
