@@ -1,14 +1,11 @@
 package com.escom;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
 
 public class ReconstruirArchivo {
     private  static final int puerto = 2121;
@@ -64,8 +61,6 @@ public class ReconstruirArchivo {
         }
 
     }
-
-
 
     public Archivo  reconstruir(Archivo archivo) {
         Archivo reconstruido = null;

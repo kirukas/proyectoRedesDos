@@ -69,14 +69,6 @@ public class Trama {
     public byte[]setByteArray(){
         byte[] tramaByteArray = new byte[sizeCabecera + Array.length];
         System.out.println("tamaño de bytes"+tramaByteArray.length);
-        //Array[0] = '$';
-        //Array[Array.length-1] = '$';
-        //inicalizaCabecera();
-        //System.out.println("tamaño de bytes"+tramaByteArray.length);
-        /*for (int i = 0; i < 3; i++) {
-            byte[] aux = casToByteArray(cabecera[i]);
-            System.arraycopy(aux,0,tramaByteArray,i*sizeInt,aux.length);
-        }*/
        ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
        ByteBuffer.wrap(tramaByteArray,sizeInt,2*sizeInt).putInt(hashCode);
        ByteBuffer.wrap(tramaByteArray,2*sizeInt,3*sizeInt).putInt(numeroWorker);
