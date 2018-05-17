@@ -16,7 +16,7 @@ public class FragmentadorArchivos {
         espejo[0] = "192.168.31.2";
         espejo[1] = "192.168.31.3";
         espejo[2] = "192.168.31.4";
-        String ruta = "/home/enrique/Documentos/holaMundo.txt";
+        String ruta = "/home/enrique/Documentos/peque.txt";
         ConexionWorker[] maquinaEspejo = new ConexionWorker[ numeroWorkers];
         ConexionWorker[] worker = new ConexionWorker[numeroWorkers];
         worker[0] = new ConexionWorker("192.168.30.2",puerto);
@@ -31,11 +31,12 @@ public class FragmentadorArchivos {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-       /*ReconstruirArchivo reconstruir = new ReconstruirArchivo(original,workers,espejo);
+        System.out.println("Reciviendo paqutes !!");
+       ReconstruirArchivo reconstruir = new ReconstruirArchivo(original,workers,espejo);
         for (int i = 0; i < numeroWorkers ; i++) {
             reconstruir.getFragmento(i);
-        }*/
+        }
 
     }
 }
+

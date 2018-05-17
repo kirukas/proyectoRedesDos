@@ -154,7 +154,12 @@ public class Archivo implements AutoCloseable {
     }
     public void escribirFinal(byte[] info){
         try {
-            in.seek(in.length());
+            if(in.length() > 0){
+                in.seek(in.length()-1);
+            }
+            else{
+                in.seek(0);
+            }
             in.write(info);
         } catch (IOException e) {
             e.printStackTrace();
