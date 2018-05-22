@@ -139,17 +139,13 @@ public class ReconstruirArchivo {
                 if((t = flujoEntrada.available()) > 0){
                     System.out.println("longitud de la trama: "+t);
                     byte [] Array = new byte[t];
-
                     flujoEntrada.read(Array);
                     Trama trama = new Trama(Array);
                     if(trama.getTipo() == guardarDatos) {// guarda los datos de la trama
                         System.out.println("Se guardaran los datos en un archivo temporal");
-                        if(i == 2){
                             reconstruido.escribirFinal(trama.getArray(),true);
-                        }
-                        else{
-                            reconstruido.escribirFinal(trama.getArray(),false);
-                        }
+
+
                     }
                 }
              }
