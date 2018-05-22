@@ -43,7 +43,7 @@ public class Trama {
     }
     public Trama (byte[] tramaRaw){
         System.out.println("Tamaño del byte array "+tramaRaw.length);
-        int tamDatos = (tramaRaw.length-sizeCabecera)-1;
+        int tamDatos = (tramaRaw.length-sizeCabecera);
         tipoTrama = ByteBuffer.wrap(tramaRaw,0,sizeInt).getInt();
         hashCode = ByteBuffer.wrap(tramaRaw,sizeInt,2*sizeInt).getInt();
         Array = new byte[tamDatos];
