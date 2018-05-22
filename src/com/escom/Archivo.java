@@ -160,7 +160,7 @@ public class Archivo implements AutoCloseable {
             }else{
                 in.write(info,0,info.length);
             }*/
-            in.write(info,0,info.length);
+            in.write(info,0,info.length+1);
 
         } catch (IOException e) {
             e.printStackTrace();
