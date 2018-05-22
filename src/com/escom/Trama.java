@@ -43,12 +43,11 @@ public class Trama {
     }
     public Trama (byte[] tramaRaw){
         System.out.println("Tamaño del byte array "+tramaRaw.length);
-        int tamDatos = tramaRaw.length-sizeCabecera;
+        int tamDatos = (tramaRaw.length-sizeCabecera)-1;
         tipoTrama = ByteBuffer.wrap(tramaRaw,0,sizeInt).getInt();
         hashCode = ByteBuffer.wrap(tramaRaw,sizeInt,2*sizeInt).getInt();
-        numeroWorker = ByteBuffer.wrap(tramaRaw,2*sizeInt,3*sizeInt).getInt();
         Array = new byte[tamDatos];
-        System.arraycopy(tramaRaw,sizeCabecera,Array,0,tamDatos-1);
+        System.arraycopy(tramaRaw,sizeCabecera,Array,0,tamDatos);
     }
     public void setNumeroWorker(int nw){numeroWorker = nw;}
     public int getTipo(){return  tipoTrama;}
