@@ -45,6 +45,8 @@ public class Worker {
                         if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
                             System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
                             Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
+                            flujoSalida.write(tramaRaw);
+                            flujoSalida.flush();
                             file.escribir(trama.getArray());
                             file.close();
                             if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
