@@ -103,10 +103,10 @@ public class ReconstruirArchivo {
                     if(trama.getTipo() == guardarDatos) {// guarda los datos de la trama
                         System.out.println("Se guardaran los datos en un archivo temporal");
                         if(i == 2){
-                            reconstruido.escribirFinal(trama.getArray(),true);
+                            reconstruido.escribir(trama.getArray());
                         }
                         else{
-                            reconstruido.escribirFinal(trama.getArray(),false);
+                            reconstruido.escribir(trama.getArray());
                         }
                     }
                 }
@@ -143,7 +143,7 @@ public class ReconstruirArchivo {
                     Trama trama = new Trama(Array);
                     if(trama.getTipo() == guardarDatos) {// guarda los datos de la trama
                         System.out.println("Se guardaran los datos en un archivo temporal");
-                            reconstruido.escribirFinal(trama.getArray(),true);
+                            reconstruido.escribir(trama.getArray());
 
 
                     }

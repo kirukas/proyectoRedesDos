@@ -152,10 +152,9 @@ public class Archivo implements AutoCloseable {
             e.printStackTrace();
         }
     }
-    public void escribirFinal(byte[] info, boolean trampa){
+    public void escribirFinal(byte[] info){
         try {
             in.write(info);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
