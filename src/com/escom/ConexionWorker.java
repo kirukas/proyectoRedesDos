@@ -44,7 +44,7 @@ public class ConexionWorker {
                      flujoEntrada.read(Array);
                      Trama trama = new Trama(Array);
                      try {
-                         Archivo file = new Archivo(ruta+trama.getHashCode());
+                         Archivo file = new Archivo(ruta+trama.getHashCode(),"rw");
                          file.escribir(trama.getArray());
                      } catch (ArchivoNoExiste archivoNoExiste) {
                          archivoNoExiste.printStackTrace();
