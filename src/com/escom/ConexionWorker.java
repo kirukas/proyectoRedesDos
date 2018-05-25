@@ -11,8 +11,7 @@ public class ConexionWorker {
     private String IP;
     private int puerto;
     private Socket conexion ;
-    private String ruta = "/home/Documentos/Redes2/ARCHIVOSRECONSTRUIDOS";
-
+    private String ruta = "/home/enrique/Documentos/Redes2/ARCHIVOSRECONSTRUIDOS/";
 
     public ConexionWorker(String IPDestino, int p) {
         IP = IPDestino;
@@ -35,8 +34,8 @@ public class ConexionWorker {
              OutputStream fujoSalida = conexion.getOutputStream();
              InputStream flujoEntrada = conexion.getInputStream();
              fujoSalida.write(array);
-             fujoSalida.flush();
-             int t = 0;
+            fujoSalida.flush();
+             /* int t = 0;
              while(t < 1){
                  if((t = flujoEntrada.available()) > 0 ){
                      System.out.println("Se recivio un paquete");
@@ -44,13 +43,13 @@ public class ConexionWorker {
                      flujoEntrada.read(Array);
                      Trama trama = new Trama(Array);
                      try {
-                         Archivo file = new Archivo(ruta+trama.getHashCode(),"rw");
+                         Archivo file = new Archivo(ruta+trama.getHashCode()+getIP(),"rw");
                          file.escribir(trama.getArray());
                      } catch (ArchivoNoExiste archivoNoExiste) {
                          archivoNoExiste.printStackTrace();
                      }
                  }
-             }
+             }*/
              try {
                  System.out.println("Cerrando conexion..");
                  conexion.close();

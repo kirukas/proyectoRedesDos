@@ -34,11 +34,11 @@ public class FragmentadorArchivos {
             e.printStackTrace();
         }
 
-   /* System.out.println("Reciviendo paqutes !!");
+    System.out.println("Reciviendo paqutes !!");
        ReconstruirArchivo reconstruir = new ReconstruirArchivo(original,workers,espejo);
         for (int i = 0; i < numeroWorkers ; i++) {
             reconstruir.getFragmento(i);
-        }*/
+        }
 
     }
 }
