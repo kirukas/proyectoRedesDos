@@ -76,6 +76,7 @@ public class Trama {
         /*for (int i = 0; i < 3; i++) {
             byte[] aux = casToByteArray(cabecera[i]);
             System.arraycopy(aux,0,tramaByteArray,i*sizeInt,aux.length);
+            sdfkekfeḱrĺerĺelrṕlerl
         }*/
        ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
        ByteBuffer.wrap(tramaByteArray,sizeInt,2*sizeInt).putInt(hashCode);
