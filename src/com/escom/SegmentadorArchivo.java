@@ -27,7 +27,7 @@ class SegmentadorArchivo {
                 }
                 trama.setNumeroWorker(i);
                 trama.setArray(archivo.getDatos(de,(int)Acopiar));// los datos del archivo
-                 System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
+                // System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
                // trama.toStringTrama();
                  if(!(worker[i].enviarDatos(trama.setByteArray()))){// si la conexion no fue exitosa se envia a su espejo
 
