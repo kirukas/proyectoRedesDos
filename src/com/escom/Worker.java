@@ -52,6 +52,7 @@ public class Worker {
                             file.close();
                             if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
                                 System.out.println("\tEl worker respalda datos en su espejo");
+                                System.out.println("el wroker "+trama.getNumeroWorker()+"Le manda a la ip"+espejo[trama.getNumeroWorker()].getIP());
                                 espejo[trama.getNumeroWorker()].enviarDatos(tramaRaw);
                             }
                         }else if(trama.getTipo() == enviarDatos){
