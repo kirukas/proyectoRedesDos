@@ -26,6 +26,7 @@ class SegmentadorArchivo {
                     Acopiar = (int)sizeBytesArchivo;
                 }
                 trama.setNumeroWorker(i);
+                System.out.println("Numero de worker "+i+"\n");
                 trama.setArray(archivo.getDatos(de,(int)Acopiar));// los datos del archivo
                  //System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
                // trama.toStringTrama();

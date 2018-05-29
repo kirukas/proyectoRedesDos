@@ -42,6 +42,7 @@ public class Worker {
                         byte[] tramaRaw = new byte[tramaSize];
                         flujoEntrada.read(tramaRaw,0,tramaSize);
                         Trama trama = new Trama(tramaRaw);
+                        System.out.println("Numero de worker "+trama.getNumeroWorker());
                         if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
                             System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
                             Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
@@ -52,7 +53,7 @@ public class Worker {
                             file.close();
                             if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
                                 System.out.println("\tEl worker respalda datos en su espejo");
-                                System.out.println("el wroker "+trama.getNumeroWorker()+"Le manda a la ip"+espejo[trama.getNumeroWorker()].getIP());
+                                System.out.println("el worker "+trama.getNumeroWorker()+"Le manda a la ip "+espejo[trama.getNumeroWorker()].getIP());
                                 espejo[trama.getNumeroWorker()].enviarDatos(tramaRaw);
                             }
                         }else if(trama.getTipo() == enviarDatos){
