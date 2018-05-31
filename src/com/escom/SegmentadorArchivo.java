@@ -16,7 +16,7 @@ class SegmentadorArchivo {
     // tipo trama 0 -> gurada el archivo
     // tipo trama 1 -> pide el texto
     public void enviar(ConexionWorker [] worker){
-        System.out.println("tamaño del archivo: "+sizeBytesArchivo);
+        System.out.println("Archivo a segmentar  "+archivo.getNombre() +"  tamaño del archivo: "+sizeBytesArchivo);
         Trama trama = new Trama(0,archivo.getNombre());
         long Acopiar = rango;
         int de = 0;
@@ -27,11 +27,11 @@ class SegmentadorArchivo {
                 }
                 trama.setNumeroWorker(i);
                 trama.setArray(archivo.getDatos(de,(int)Acopiar));// los datos del archivo
-                 System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
+                 //System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
                  int longitudPaquete = ((int)Acopiar - de) + trama.getSizeCabecera();
                  // trama.toStringTrama();
                 trama.setLongitudPaquete(longitudPaquete);
-                System.out.println("Longitud de la trama a enviar "+longitudPaquete);
+                System.out.println("Enviando paquete de longitud "+longitudPaquete + "  bytes") ;
                  if(!(worker[i].enviarDatos(trama.getByteArray()))){// si la conexion no fue exitosa se envia a su espejo
 
                      ConexionWorker Espejo = new ConexionWorker(espejo[i],2121);

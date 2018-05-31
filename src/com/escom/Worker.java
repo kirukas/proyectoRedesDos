@@ -43,18 +43,20 @@ public class Worker {
                 while(servidorActivo){
 
                     if((tramaSize = flujoEntrada.available()) > 0){
-                        System.out.println("Se recibio una trama ..");
+                        System.out.println("Se recibio una paquete ..");
                         flujoEntrada.read(tramaAuxiliar,0,sizeCabecera);
                         Trama cabecera = new Trama(tramaAuxiliar);
                         byte[] byteArray = new byte[cabecera.getLongitudPaquete()];
                         flujoEntrada.read(byteArray,0,byteArray.length);
+                        System.out.println("longitus del paquete "+byteArray.length);
+                        System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
                         Trama trama = new Trama(byteArray);
-                        System.out.println("\nPinche Hector!!");
+                        System.out.println("\nPinche Hector!! XD");
                         //Trama trama = new Trama(tramaRaw);
                         if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
-                            System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
                             Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
                             file.escribir(trama.getArray());
+                            System.out.println("Guardando los datos... ");
                             file.close();
                             if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
                                 System.out.println("\tEl worker respalda datos en su espejo");
