@@ -49,12 +49,12 @@ public class Worker {
                         Trama cabecera = new Trama(tramaAuxiliar);
                         byte[] byteArray = new byte[cabecera.getLongitudPaquete()];
                         flujoEntrada.read(byteArray,0,byteArray.length);
-                        System.out.println("longitus del paquete "+byteArray.length);
+                        //System.out.println("longitus del paquete "+byteArray.length);
                         System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
                         Trama trama = new Trama(byteArray);
                         System.out.println("\nPinche Hector!! XD");
+                        System.out.println("info trama a enviar ");trama.toStringTrama();
                         //Trama trama = new Trama(tramaRaw);
-                        System.out.println("tipo de trama "+trama.getTipo());
                         if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
                             Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
                             file.escribir(trama.getArray());

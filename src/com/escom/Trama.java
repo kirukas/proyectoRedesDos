@@ -82,11 +82,11 @@ public class Trama {
         return tramaByteArray;
     }
     public void   toStringTrama() {
-        System.out.println("tipo de trama: "+getTipo()+"\n hasCode:"+getHashCode()+"\n numero Worker " +getNumeroWorker());
-        System.out.print("Datos");
+        System.out.println("tipo de trama: "+getTipo()+"\n hasCode:"+getHashCode()+"\n numero Worker " +getNumeroWorker()+" longitud del paquete "+getLongitudPaquete());
+        /*System.out.print("Datos");
         for (int i = 0; i < Array.length; i++) {
             System.out.print(" "+Array[i]);
-        }
+        }*/
     }
 
 }
