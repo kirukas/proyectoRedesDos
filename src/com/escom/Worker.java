@@ -13,17 +13,18 @@ public class Worker {
     public static void main(String[] args){
         boolean servidorActivo;
         int sizeInt = Integer.BYTES;
-        final  int sizeCabecera = 5*sizeInt;
+        final  int sizeCabecera = 4*sizeInt;
         String ruta = "/home/redes/";
         final int numeroEspejos = 3;
         final int guardarDatos = 0;
         final int enviarDatos = 1;
         String isWoker = "worker";
         Socket conexion;
+        int numeroWorker = 0;
         //boolean isWoker = true;
         int tramaSize;
         boolean aceptarConexion;
-       byte[] tramaAuxiliar = new byte[sizeCabecera];
+       byte[] tramaAuxiliar = new byte[sizeCabecera+50];
         ConexionWorker toMaster;
         ConexionWorker[] espejo = new ConexionWorker[numeroEspejos];
         espejo[0] = new ConexionWorker("192.168.31.2",puerto);
@@ -60,7 +61,8 @@ public class Worker {
                             file.close();
                             if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
                                 System.out.println("\tEl worker respalda datos en su espejo");
-                                espejo[trama.getNumeroWorker()].enviarDatos(byteArray);
+                                numeroWorker = trama.getNumeroWorker();
+                                espejo[numeroWorker].enviarDatos(byteArray);
                             }
                         }else if(trama.getTipo() == enviarDatos){
                             System.out.println("\tPeticion de un Archivo ");
@@ -96,7 +98,7 @@ public class Worker {
         } catch (ArchivoNoExiste archivoNoExiste) {
             archivoNoExiste.printStackTrace();
         } catch (Exception e) {
-            System.out.println("Error de conexion con la maquina "+"10.42.0.64" +"\nRevisar estado de la maquina");
+            System.out.println("Error de conexion con la maquina "+espejo[numeroWorker] +"\nRevisar estado de la maquina");
             e.printStackTrace();
         }
     }

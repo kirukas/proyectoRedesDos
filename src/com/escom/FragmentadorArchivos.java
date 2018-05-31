@@ -32,12 +32,12 @@ public class FragmentadorArchivos {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+    /*
     System.out.println("Reciviendo paqutes !!");
        ReconstruirArchivo reconstruir = new ReconstruirArchivo(original,workers,espejo);
         for (int i = 0; i < numeroWorkers ; i++) {
             reconstruir.getFragmento(i);
-        }
+        }*/
 
     }
 }
