@@ -49,6 +49,7 @@ public class Worker {
                         byte[] byteArray = new byte[cabecera.getLongitudPaquete()];
                         flujoEntrada.read(byteArray,0,byteArray.length);
                         Trama trama = new Trama(byteArray);
+                        System.out.println("\nPinche Hector!!");
                         //Trama trama = new Trama(tramaRaw);
                         if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
                             System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
