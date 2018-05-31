@@ -54,10 +54,11 @@ public class Worker {
                         Trama trama = new Trama(byteArray);
                         System.out.println("\nPinche Hector!! XD");
                         //Trama trama = new Trama(tramaRaw);
+                        System.out.println("tipo de trama "+trama.getTipo());
                         if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
                             Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
                             file.escribir(trama.getArray());
-                            System.out.println("Guardando los datos... ");
+                            System.out.println("Datos guardados... ");
                             file.close();
                             if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
                                 System.out.println("\tEl worker respalda datos en su espejo");
