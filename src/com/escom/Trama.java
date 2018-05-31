@@ -4,11 +4,12 @@ import java.nio.ByteBuffer;
 
 public class Trama {
     private final static  int sizeInt = Integer.BYTES;
-    private final static int sizeCabecera = 3*sizeInt;
+    private final static int sizeCabecera = 4*sizeInt;
     private int tipoTrama;
     private int hashCode;
     private  String archivo;
     private byte[] Array;
+    private int longitudPaquete;
     int[] cabecera = new int[3];
     private int numeroWorker;
     // tipo trama 0 -> gurada el archivo
@@ -47,9 +48,13 @@ public class Trama {
         tipoTrama = ByteBuffer.wrap(tramaRaw,0,sizeInt).getInt();
         hashCode = ByteBuffer.wrap(tramaRaw,sizeInt,2*sizeInt).getInt();
         numeroWorker = ByteBuffer.wrap(tramaRaw,2*sizeInt,3*sizeInt).getInt();
+        longitudPaquete = ByteBuffer.wrap(tramaRaw,3*sizeInt,4*sizeInt).getInt();
         Array = new byte[tamDatos];
         System.arraycopy(tramaRaw,sizeCabecera,Array,0,tamDatos);
     }
+
+    public int getLongitudPaquete() { return longitudPaquete; }
+    public void setLongitudPaquete(int longitudPaquete) { this.longitudPaquete = longitudPaquete; }
     public void setNumeroWorker(int nw){numeroWorker = nw;}
     public int getTipo(){return  tipoTrama;}
     public String getNombreArchivo(){return  archivo;}
@@ -60,18 +65,19 @@ public class Trama {
     public void setHashCode(int hashCode) { this.hashCode = hashCode; }
     public void setTipoTrama(int tipoTrama) { this.tipoTrama = tipoTrama; }
     public int getNumeroWorker(){return  numeroWorker;}
-
+    public int getSizeCabecera(){return  sizeCabecera;}
     private byte[] casToByteArray(int entero){
         byte [] bytes = new byte[sizeInt];
         ByteBuffer.wrap(bytes).putInt(entero);
         return  bytes;
     }
-    public byte[]setByteArray(){
+    public byte[]getByteArray(){
         byte[] tramaByteArray = new byte[sizeCabecera + Array.length];
         System.out.println("tamaño de bytes"+tramaByteArray.length);
        ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
        ByteBuffer.wrap(tramaByteArray,sizeInt,2*sizeInt).putInt(hashCode);
        ByteBuffer.wrap(tramaByteArray,2*sizeInt,3*sizeInt).putInt(numeroWorker);
+       ByteBuffer.wrap(tramaByteArray,3*sizeInt,4*sizeInt).putInt(longitudPaquete);
         System.arraycopy(Array,0,tramaByteArray,sizeCabecera,Array.length);
         return tramaByteArray;
     }

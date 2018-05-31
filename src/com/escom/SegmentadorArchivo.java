@@ -27,12 +27,15 @@ class SegmentadorArchivo {
                 }
                 trama.setNumeroWorker(i);
                 trama.setArray(archivo.getDatos(de,(int)Acopiar));// los datos del archivo
-                // System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
-               // trama.toStringTrama();
-                 if(!(worker[i].enviarDatos(trama.setByteArray()))){// si la conexion no fue exitosa se envia a su espejo
+                 System.out.println(" inferior:  "+de+"  hasta :"+Acopiar);
+                 int longitudPaquete = ((int)Acopiar - de) + trama.getSizeCabecera();
+                 // trama.toStringTrama();
+                trama.setLongitudPaquete(longitudPaquete);
+                System.out.println("Longitud de la trama a enviar "+longitudPaquete);
+                 if(!(worker[i].enviarDatos(trama.getByteArray()))){// si la conexion no fue exitosa se envia a su espejo
 
                      ConexionWorker Espejo = new ConexionWorker(espejo[i],2121);
-                    if(!(Espejo.enviarDatos(trama.setByteArray()))) System.out.println("Los datos no se pudieron guardar!!");
+                    if(!(Espejo.enviarDatos(trama.getByteArray()))) System.out.println("Los datos no se pudieron guardar!!");
                 }
                 de+=rango;
                 Acopiar+=rango;

@@ -96,7 +96,7 @@ public class ReconstruirArchivo {
             Socket conexionEspejo = new Socket(espejo[i],puerto);
             InputStream entradaEspejo = conexionEspejo.getInputStream();
             OutputStream salidaAEspejo = conexionEspejo.getOutputStream();
-            salidaAEspejo.write(peticion.setByteArray());
+            salidaAEspejo.write(peticion.getByteArray());
             salidaAEspejo.flush();
             int t = 0;
             while(t < 1 ){
@@ -134,7 +134,7 @@ public class ReconstruirArchivo {
             Socket conexion = new Socket(worker[i],puerto);
             InputStream flujoEntrada = conexion.getInputStream();
             OutputStream flujoSalida = conexion.getOutputStream();
-            flujoSalida.write(peticion.setByteArray());
+            flujoSalida.write(peticion.getByteArray());
             flujoSalida.flush();
             int t = 0;
              while(t < 1){

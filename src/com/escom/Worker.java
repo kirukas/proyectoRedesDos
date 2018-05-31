@@ -12,6 +12,8 @@ public class Worker {
 
     public static void main(String[] args){
         boolean servidorActivo;
+        int sizeInt = Integer.BYTES;
+        final  int sizeCabecera = 5*sizeInt;
         String ruta = "/home/redes/";
         final int numeroEspejos = 3;
         final int guardarDatos = 0;
@@ -21,11 +23,13 @@ public class Worker {
         //boolean isWoker = true;
         int tramaSize;
         boolean aceptarConexion;
+       byte[] tramaAuxiliar = new byte[sizeCabecera];
         ConexionWorker toMaster;
         ConexionWorker[] espejo = new ConexionWorker[numeroEspejos];
         espejo[0] = new ConexionWorker("192.168.31.2",puerto);
         espejo[1] = new ConexionWorker("192.168.31.3",puerto);
         espejo[2] = new ConexionWorker("192.168.31.4",puerto);
+
         System.out.println( args[0]+" activo...");
         try {
             ServerSocket worker = new ServerSocket(puerto);
@@ -37,11 +41,15 @@ public class Worker {
                 OutputStream flujoSalida = conexion.getOutputStream();// canal de comunicasion
                 servidorActivo = true;
                 while(servidorActivo){
+
                     if((tramaSize = flujoEntrada.available()) > 0){
                         System.out.println("Se recibio una trama ..");
-                        byte[] tramaRaw = new byte[tramaSize];
-                        flujoEntrada.read(tramaRaw,0,tramaSize);
-                        Trama trama = new Trama(tramaRaw);
+                        flujoEntrada.read(tramaAuxiliar,0,sizeCabecera);
+                        Trama cabecera = new Trama(tramaAuxiliar);
+                        byte[] byteArray = new byte[cabecera.getLongitudPaquete()];
+                        flujoEntrada.read(byteArray,0,byteArray.length);
+                        Trama trama = new Trama(byteArray);
+                        //Trama trama = new Trama(tramaRaw);
                         if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
                             System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
                             Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
@@ -49,7 +57,7 @@ public class Worker {
                             file.close();
                             if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
                                 System.out.println("\tEl worker respalda datos en su espejo");
-                                espejo[trama.getNumeroWorker()].enviarDatos(tramaRaw);
+                                espejo[trama.getNumeroWorker()].enviarDatos(byteArray);
                             }
                         }else if(trama.getTipo() == enviarDatos){
                             System.out.println("\tPeticion de un Archivo ");
@@ -60,7 +68,7 @@ public class Worker {
                         Trama respuesta = new Trama(guardarDatos,file.getDatos(0,(int)file.getSize()));
                         respuesta.setHashCode(trama.getHashCode());
                         System.out.println("Envindo la trama  ..");
-                        flujoSalida.write(respuesta.setByteArray());
+                        flujoSalida.write(respuesta.getByteArray());
                         file.close();
                         flujoSalida.flush();// se manda el flujo de salida
                         System.out.println("\tse enviaron los datos con exito!");
