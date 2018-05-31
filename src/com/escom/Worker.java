@@ -45,12 +45,12 @@ public class Worker {
 
                     if((tramaSize = flujoEntrada.available()) > 0){
                         System.out.println("Se recibio un paquete ..");
-                        flujoEntrada.read(tramaAuxiliar,0,sizeCabecera);
-                        Trama cabecera = new Trama(tramaAuxiliar);
-                        System.out.println("info cabecera recibida ");cabecera.toStringTrama();
+                        //flujoEntrada.read(tramaAuxiliar,0,sizeCabecera);
+                        //Trama cabecera = new Trama(tramaAuxiliar);
+                        //System.out.println("info cabecera recibida ");cabecera.toStringTrama();
 
-                        byte[] byteArray = new byte[cabecera.getLongitudPaquete()];
-                        flujoEntrada.read(byteArray,0,byteArray.length);
+                        byte[] byteArray  = flujoEntrada.readAllBytes(); //= new byte[cabecera.getLongitudPaquete()];
+                        //flujoEntrada.read(byteArray);
                         System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
                         Trama trama = new Trama(byteArray);
                         System.out.println("\nPinche Hector!! XD");

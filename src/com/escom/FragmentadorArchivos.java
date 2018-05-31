@@ -17,7 +17,7 @@ public class FragmentadorArchivos {
         espejo[0] = "192.168.31.2";
         espejo[1] = "192.168.31.3";
         espejo[2] = "192.168.31.4";
-        String ruta = "/home/enrique/Documentos/texto.txt";
+        String ruta = "/home/enrique/Documentos/Introduccion a la investigacion de operaraciones - Hillier - 9na.pdf";
         ConexionWorker[] maquinaEspejo = new ConexionWorker[ numeroWorkers];
         ConexionWorker[] worker = new ConexionWorker[numeroWorkers];
         worker[0] = new ConexionWorker("192.168.30.2",puerto);
