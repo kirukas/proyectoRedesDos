@@ -44,16 +44,17 @@ public class Worker {
                 while(servidorActivo){
 
                     if((tramaSize = flujoEntrada.available()) > 0){
-                        System.out.println("Se recibio una paquete ..");
+                        System.out.println("Se recibio un paquete ..");
                         flujoEntrada.read(tramaAuxiliar,0,sizeCabecera);
                         Trama cabecera = new Trama(tramaAuxiliar);
+                        System.out.println("info cabecera recibida ");cabecera.toStringTrama();
+
                         byte[] byteArray = new byte[cabecera.getLongitudPaquete()];
                         flujoEntrada.read(byteArray,0,byteArray.length);
-                        //System.out.println("longitus del paquete "+byteArray.length);
                         System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
                         Trama trama = new Trama(byteArray);
                         System.out.println("\nPinche Hector!! XD");
-                        System.out.println("info trama a enviar ");trama.toStringTrama();
+                        System.out.println("info trama a guardar... ");trama.toStringTrama();
                         //Trama trama = new Trama(tramaRaw);
                         if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
                             Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
