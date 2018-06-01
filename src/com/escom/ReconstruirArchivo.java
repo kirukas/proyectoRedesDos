@@ -42,7 +42,7 @@ public class ReconstruirArchivo {
     private void ConstruirPeticion(){
         int tipoPetecion = 1; /// para obtener archivo;
         int numeroWorker = 10000;
-        byte [] relleno = new byte[10];
+        byte [] relleno = new byte[30];
         for (int i = 0; i < 10; i++) { relleno[i] = 0; }
         peticion = new Trama(tipoPetecion,archivo.getNombre(),numeroWorker,relleno);
         peticion.setLongitudPaquete(0);

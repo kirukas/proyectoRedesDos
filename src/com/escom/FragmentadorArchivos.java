@@ -26,8 +26,8 @@ public class FragmentadorArchivos {
         ConexionWorker maquina1 = new ConexionWorker("192.168.3.2",2121);
         Archivo original = new Archivo(ruta);
         SegmentadorArchivo segmentador = new SegmentadorArchivo(original,numeroWorkers,espejo);
-       /* segmentador.enviar( worker);
-        try {
+        segmentador.enviar( worker);
+       /*try {
             original.close();
         } catch (Exception e) {
             e.printStackTrace();
