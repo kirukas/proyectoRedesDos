@@ -66,48 +66,21 @@ public class ReconstruirArchivo {
     }
 
 
-
-    public Archivo  reconstruir(Archivo archivo) {
-        Archivo reconstruido = null;
-        try {
-             reconstruido = new Archivo(ruta+archivo.getNombre(),"rw");
-            for (int i = 0; i < worker.length ; i++) {
-
-                Archivo auxiliar = new Archivo(rutasTemporales[i],"rw");
-                reconstruido.escribir(auxiliar.getDatos(0,(int)auxiliar.getSize()));
-
-                auxiliar.close();
-            }
-        } catch (ArchivoNoExiste archivoNoExiste) {
-            archivoNoExiste.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            reconstruido.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return  reconstruido;
-
-    }
-
     public void getFragmento(int i){
 
         try {
             Socket conexion = new Socket(worker[i],puerto);
             InputStream flujoEntrada = conexion.getInputStream();
             OutputStream flujoSalida = conexion.getOutputStream();
-            flujoSalida.write(peticion.setByteArray());
+            flujoSalida.write(peticion.getByteArray());
             flujoSalida.flush();
             int t = 0;
              while(t < 1){
                 if((t = flujoEntrada.available()) > 0){
-                    System.out.println("longitud de la trama: "+t);
-                    byte [] Array = new byte[t];
-
-                    flujoEntrada.read(Array);
+                    System.out.println("Se recivio paquete de la ip : "+conexion.getInetAddress());
+                    byte [] Array = flujoEntrada.readAllBytes();
                     Trama trama = new Trama(Array);
+                    System.out.println("info trama " + trama.toString());
                     if(trama.getTipo() == guardarDatos) {// guarda los datos de la trama
                         System.out.println("Se guardaran los datos en un archivo temporal");
                         guardaArchivosTemporal(trama);

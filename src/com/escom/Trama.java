@@ -42,7 +42,7 @@ public class Trama {
         this.numeroWorker = numeroWorker;
     }
     public Trama (byte[] tramaRaw){
-        System.out.println("Tamaño del byte array "+tramaRaw.length);
+        //System.out.println("Tamaño del byte array "+tramaRaw.length);
         int tamDatos = tramaRaw.length-sizeCabecera;
         tipoTrama = ByteBuffer.wrap(tramaRaw,0,sizeInt).getInt();
         hashCode = ByteBuffer.wrap(tramaRaw,sizeInt,2*sizeInt).getInt();
@@ -66,29 +66,18 @@ public class Trama {
         ByteBuffer.wrap(bytes).putInt(entero);
         return  bytes;
     }
-    public byte[]setByteArray(){
+    public byte[]getByteArray(){
         byte[] tramaByteArray = new byte[sizeCabecera + Array.length];
-        System.out.println("tamaño de bytes"+tramaByteArray.length);
-        //Array[0] = '$';
-        //Array[Array.length-1] = '$';
-        //inicalizaCabecera();
-        //System.out.println("tamaño de bytes"+tramaByteArray.length);
-        /*for (int i = 0; i < 3; i++) {
-            byte[] aux = casToByteArray(cabecera[i]);
-            System.arraycopy(aux,0,tramaByteArray,i*sizeInt,aux.length);
-        }*/
+       // System.out.println("tamaño de bytes"+tramaByteArray.length);
        ByteBuffer.wrap(tramaByteArray,0,sizeInt).putInt(tipoTrama);
        ByteBuffer.wrap(tramaByteArray,sizeInt,2*sizeInt).putInt(hashCode);
        ByteBuffer.wrap(tramaByteArray,2*sizeInt,3*sizeInt).putInt(numeroWorker);
         System.arraycopy(Array,0,tramaByteArray,sizeCabecera,Array.length);
         return tramaByteArray;
     }
-    public void   toStringTrama() {
-        System.out.println("tipo de trama: "+getTipo()+"\n hasCode:"+getHashCode()+"\n numero Worker " +getNumeroWorker());
-        System.out.print("Datos");
-        for (int i = 0; i < Array.length; i++) {
-            System.out.print(" "+Array[i]);
-        }
+    public String   toString() {
+         return "tipo de trama: "+getTipo()+"\n hasCode:"+getHashCode()+"\n numero Worker " +getNumeroWorker() + "\nlonguitud de la trama "+Array.length;
+
     }
 
 }

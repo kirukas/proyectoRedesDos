@@ -37,19 +37,20 @@ public class Worker {
                 OutputStream flujoSalida = conexion.getOutputStream();// canal de comunicasion
                 servidorActivo = true;
                 while(servidorActivo){
-                    if((tramaSize = flujoEntrada.available()) > 0){
+                    if((flujoEntrada.available()) > 0){
                         System.out.println("Se recibio una trama ..");
-                        byte[] tramaRaw = new byte[tramaSize];
-                        flujoEntrada.read(tramaRaw,0,tramaSize);
-                        Trama trama = new Trama(tramaRaw);
+                        byte[] byteArray = flujoEntrada.readAllBytes();
+                        Trama trama = new Trama(byteArray);
+                        System.out.println("info trama " + trama.toString());
                         if(trama.getTipo() == guardarDatos){// guarda los datos de la trama
                             System.out.println("\tLa Maquina "+ String.valueOf(conexion.getInetAddress())+" Mando datos");
                             Archivo file  = new Archivo(ruta+trama.getHashCode(),"rw");
+                            System.out.println("tamanio datos a guardar "+trama.getArray().length);
                             file.escribir(trama.getArray());
                             file.close();
                             if(isWoker.contains(args[0])){// si es umn worker le manda el byte[] array a su espejo
                                 System.out.println("\tEl worker respalda datos en su espejo");
-                                espejo[trama.getNumeroWorker()].enviarDatos(tramaRaw);
+                                espejo[trama.getNumeroWorker()].enviarDatos(byteArray);
                             }
                         }else if(trama.getTipo() == enviarDatos){
                             System.out.println("\tPeticion de un Archivo ");
@@ -60,7 +61,7 @@ public class Worker {
                         Trama respuesta = new Trama(guardarDatos,file.getDatos(0,(int)file.getSize()));
                         respuesta.setHashCode(trama.getHashCode());
                         System.out.println("Envindo la trama  ..");
-                        flujoSalida.write(respuesta.setByteArray());
+                        flujoSalida.write(respuesta.getByteArray());
                         file.close();
                         flujoSalida.flush();// se manda el flujo de salida
                         System.out.println("\tse enviaron los datos con exito!");
