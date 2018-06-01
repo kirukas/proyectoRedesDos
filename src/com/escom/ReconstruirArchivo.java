@@ -75,7 +75,8 @@ public class ReconstruirArchivo {
             flujoSalida.write(peticion.getByteArray());
             flujoSalida.flush();
             int t = 0;
-             while(t < 1){
+            conexion.setSoTimeout(10000);
+            while(t < 1){
                 if((t = flujoEntrada.available()) > 0){
                     System.out.println("Se recivio paquete de la ip : "+conexion.getInetAddress());
                     byte [] Array = flujoEntrada.readAllBytes();
