@@ -26,18 +26,18 @@ public class FragmentadorArchivos {
         ConexionWorker maquina1 = new ConexionWorker("192.168.3.2",2121);
         Archivo original = new Archivo(ruta);
         SegmentadorArchivo segmentador = new SegmentadorArchivo(original,numeroWorkers,espejo);
-        segmentador.enviar( worker);
+       /* segmentador.enviar( worker);
         try {
             original.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    /*
+        }*/
+
     System.out.println("Reciviendo paqutes !!");
        ReconstruirArchivo reconstruir = new ReconstruirArchivo(original,workers,espejo);
         for (int i = 0; i < numeroWorkers ; i++) {
             reconstruir.getFragmento(i);
-        }*/
+        }
 
     }
 }

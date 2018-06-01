@@ -45,6 +45,8 @@ public class ReconstruirArchivo {
         byte [] relleno = new byte[10];
         for (int i = 0; i < 10; i++) { relleno[i] = 0; }
         peticion = new Trama(tipoPetecion,archivo.getNombre(),numeroWorker,relleno);
+        peticion.setLongitudPaquete(0);
+
     }
 
     public void guardaArchivosTemporal(Trama t) {
